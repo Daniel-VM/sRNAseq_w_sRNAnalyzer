@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>sRNAnalyzer - a pipeline for sRNA sequencing data analysis</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <div class="left">
+            <a href="."><h1 id="project_title">sRNAnalyzer</h1></a>
+            <h2 id="project_tagline">A pipeline for small RNA sequencing data analysis</h2>
+          </div>
+          
+          <div class="right">
+            <a href="http://www.systemsbiology.org" target="_blank"><img src="images/ISB_Logo.png" width="230"></a>
+          </div>
+          
+          <div class="clear">
+          </div>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Getting Started with sRNAnalyzer</h1>
+        <h2>Download and Install Dependencies</h2>
+        
+        <p>Make sure you have python 2.6 or later and perl 5 or later installed.</p>
+        <p>Download and install <a href="http://bowtie-bio.sourceforge.net/index.shtml" target="_blank">bowtie</a>. Make sure the <code>bowtie</code>
+        command is in your system path. Note: bowtie 2 is not supported in sRNAnalyzer.</p>
+        
+        <p>Download and install the <a href="http://hannonlab.cshl.edu/fastx_toolkit/download.html" target="_blank">fastx_toolkit</a>,
+        following the instructions on the website. Download the fastx 0.0.14 version. Make sure the command <code>fastx_collapser</code> is in your
+        system path.</p>
+        
+        <p>Download and install <a href="https://cutadapt.readthedocs.io/en/stable/installation.html" target="_blank">cutadapt</a>.
+        This requires python 2.6 or later and a C compiler. The easiest way to install cutadapt is using
+        <code>pip</code> following the instructions on the cutadapt website. Make sure the <code>cutadapt</code> command is in
+        your system path.</p>
+        
+        <h2>Download and Setup sRNAnalyzer</h2>
+        
+        <p>Download sRNAnalyzer. Unzip the downloaded archive.
+        You may want to add the sRNAnalzyer directory to your system <code>PATH</code> so you can use the sRNAnalyzer commands
+        directly.  Next, we need to download some databases for alignment. There are three options for databases to download: a small RNA database,
+        a database with human DNA and RNA, as well as some bacterial sequences, and the NCBI non-human database. The latter two databases are quite
+        large (> 70GB uncompressed), so it is recommended to begin with the sRNA database. The installation procedure for all three databases is the same.
+        First, download one of the databases and unzip the archive. Open the <code>DB_config</code> file and change the line</p>
+
+        <p><code>base: Insert the path to this folder here</code></p>
+        
+        <p>by inserting the full path to the folder. For example,</p>
+        
+        <p><code>base: /databases/bowtie/indexes/sRNA_DBs</code></p>
+        
+        <p>Looking at the <code>DB_config</code>, you should see a list of database names with paths. These databases are the ones that
+        you can use in your pipeline now. It is also possible to add many new databases to the pipeline by downloading or building
+        bowtie indexes and specifying their location in the database configuration file. For more information, see the
+        <a href="docs.html">Configuration File Documentation</a>
+        Now you're ready to begin using the pipeline. </p>
+        
+        <h2>Using the Pipeline</h2>
+        
+        <p>In order to use the pipeline, we need to create a pipeline configuration file, which specifies preprocessing setting, such as
+        adapter sequences, and alignment settings such as database order and maximum mismatch allowances. Go to the
+        <a href="docs.html">Config Docs</a> to learn how to create a configuration file with the settings required for your project.</p>
+        
+        <p>An typical pipeline configuration file is shown below,</p>
+        
+        <pre><code>preprocess:
+  kit:        NEB
+  gzip:       true
+  stop-oligo: false
+        
+alignment:
+  type: single
+  human_miRNA:     2
+  human_miRNA_sub: 2
+  human_piRNA:     2
+  human_snoRNA:    2</code></pre>
+        
+        <h3>Preprocessing</h3>
+        
+        <p>Using a terminal, change the directory so that the fastq or fast.gz files you wish to process are in the current working
+        directory. In order to run preprocessing, run the command</p>
+        
+        <pre><code>/Downloads/sRNAnalyzer/preprocess.pl --config pipeline_config.conf</code></pre>
+        
+        <p>where <code>pipeline_config.yaml</code> is your pipeline configuration file, and <code>/Downloads/</code> is replaced with wherever your sRNAnalyzer
+        folder is located. Or if you have added the sRNAnalyzer directory to the system <code>PATH</code>, then simply use</p>  
+        
+        <pre><code>preprocess.pl --config pipeline_config.conf</code></pre>
+        
+        <p>The preprocessing will generated <code>sample_Processed.fa</code> files that have had adapter trimmed, low-quality reads
+        filtered out, and collapsed. Additional report files are also generated with information about adapter trimming and read
+        quality.</p>
+        
+        <h3>Alignment</h3>
+        
+        <p>To perform the alignment, ensure that your database and pipeline configuration files are properly setup.
+        After downloading the initial human small RNA databases, the databases available for alignment, which can be
+        specified in the pipeline configuration file are,</p>
+        
+        <pre><code>human_miRNA
+human_miRNA_sub
+human_piRNA
+human_snoRNA
+virus_miRNA
+plant_miRNA
+all_miRNA
+all_miRNA_sub</code></pre>
+        
+        <p>Then, making sure that you are in the directory containing the _Processed.fa files you wish to align, run the command</p>
+        
+        <pre><code>/Downloads/sRNAnalyzer/align.pl /home/data pipeline_config.yaml DB_config.conf</code></pre>
+        
+        <p>or</p>
+        
+        <pre><code>align.pl /home/data pipeline_config.yaml DB_config.conf</code></pre>
+        
+        <p>if you have added sRNAnalyzer to the system <code>PATH</code></p>
+        
+        <p>In the command, <code>pipeline_config.yaml</code> is the pipeline
+        configuration file and <code>DB_config.conf</code> is the database configuration file.</p>
+        
+        <p>The align command will output several files, including feature files, profile files, a read distribution file, and an
+        unmatched sequences file.</p>
+        
+        <h3>Summarization</h3>
+        
+        <p>The next step in the pipeline is the summarization of the results of the alignment in order to prepare
+        for statistical analysis of the data. An example summarization command is,</p>
+        
+        <pre><code>summarize.pl DB_config.conf --project my_project</code></pre>
+        
+        <p>This command will sum the feature and profile result from individual samples into result files for all
+        samples. <code>my_project</code> is the name of the project, so all of the result files with start with the prefix
+        <code>my_project_</code>. The general form of the summarize command is,</p>
+        
+        <pre><code>summarize.pl &lt;db-config-file&gt; &lt;sample-order-file&gt; --project &lt;project-name&gt;</code></pre>
+        
+        <p>where the db-config-file is required, and the sample-order-file and project-name are both optional.
+        The <code>db-config-file</code> is the database configuration file discussed above, and the <code>sample-order-file</code>
+        specifies the order of the samples in the result files. If the sample order file is not provided,
+        the order is alphabetical. The <code>summarize.pl</code> command has two additional options, <code>--miRNA</code> and <code>--exogenous</code>.
+        Use the <code>--miRNA</code> flag if you would like to summarize miRNA separately and get information about possible
+        miRNA SNPs. Use the <code>--exogenous</code> flag if you would like to summarize exogenous reads, including summarizing by taxonomy information.
+        Note that the <code>--exogenous</code> option is only available if the MainDBs or NCBI_NonHuman databases are installed.</p>
+      </section>
+    </div>
+  </body>
+</html>

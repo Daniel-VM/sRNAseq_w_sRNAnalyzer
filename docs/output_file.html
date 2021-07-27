@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>sRNAnalyzer - a pipeline for sRNA sequencing data analysis</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <div class="left">
+            <a href="."><h1 id="project_title">sRNAnalyzer</h1></a>
+            <h2 id="project_tagline">A pipeline for small RNA sequencing data analysis</h2>
+          </div>
+          
+          <div class="right">
+            <a href="http://www.systemsbiology.org" target="_blank"><img src="images/ISB_Logo.png" width="230"></a>
+          </div>
+          
+          <div class="clear">
+          </div>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Output File Documentation</h1>
+        <h2>Feature File</h2>
+
+        <p>[Column 1]	<strong>matchType</strong> - refName + maxMismatch + strand, e.g., "human_miRNA.mis_0+"</p>
+        <p>[Column 2]	<strong>matchID</strong> - only consider the best mapped matchID for each unique read</p>
+        <p>[Column 3]	<strong>readNum</strong> - sum of readNum mapped to the best matchID</p>
+
+
+        <h2>Profile File</h2>
+        <p>[Column 1]	<strong>matchType</strong> - refName + maxMismatch + strand, e.g., "human_miRNA.mis_0+"</p>
+        <p>[Column 2]	<strong>readID</strong> - ID-readNum</p>
+        <p>[Column 3]	<strong>readSeq</strong> - original read sequence (even if orientation is -)</p>
+        <p>[Column 4]	<strong>matchID</strong> - entry ID of the best match for each unique read</p>
+			<p>    (for RNA, it is the first forward best match, if there’s one)</p>
+        <p>[Column 5]	<strong>offset</strong> - readStart + mismatch for the best mapped matchID
+			<p>    (coordinate + CIGAR string, e.g., "6,22:C>A,23:G>T")</p>
+        <p>[Column 6]	<strong>matchNum</strong> - number for how many multiple matchIDs for each unique read
+        <p>[Column 7]	<strong>multiMatch</strong> - other matches (NOT including the best match)
+			<p>    (format: "matchID_i|strand_i|offset_i|.|…")</p>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Slate theme maintained by <a href="https://github.com/jasoncostello">Jason Costello</a></p>
+      </footer>
+    </div>-->
+
+  </body>
+</html>

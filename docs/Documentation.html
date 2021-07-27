@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>sRNAnalyzer - a pipeline for sRNA sequencing data analysis</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <div class="left">
+            <a href="."><h1 id="project_title">sRNAnalyzer</h1></a>
+            <h2 id="project_tagline">A pipeline for small RNA sequencing data analysis</h2>
+          </div>  
+          
+          <div class="right">
+            <a href="http://www.systemsbiology.org" target="_blank"><img src="images/ISB_Logo.png" width="230"></a>
+          </div>
+          
+          <div class="clear">
+          </div>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Configuration File Documentation</h1>
+        
+        <p>In order to setup the sRNAnalyzer pipeline, two configuration files are required.
+        The pipeline configuration file defines the preprocessing and alignment
+        settings for the pipeline.</p>
+        
+        <h2>Database Configuration File</h2>
+        
+        <p>The database configuration file defines the names of the alignment databases and tells sRNAnalyzer where
+        these databases are located. The base attribute must be an absolute path, where all all other paths are
+        relative to the base path. The other paths should be to bowtie indexes, <strong>including</strong> the prefix to the
+        index files. An example configuration file is shown below.</p>
+        
+        <pre><code>base: /DBs/bowtie/indexes/
+    human_miRNA: miRBase/hairpin_hsa_anno
+    human_piRNA: piRBase/piR_human_v1.0</code></pre>
+        
+        <p>From this configuration file, we can now use the names <code>human_miRNA</code> and <code>human_piRNA</code> in the
+        pipeline configuration file defined below, since sRNAnalyzer can find the bowtie indexes corresponding
+        to these database names.</p>
+        
+        <h2>Pipeline Configuration File</h2>
+        
+        <p>The pipeline configuration file allows specifying settings for the preprocessing and alignment modules
+        of the pipeline. This file is in a the <a href="http://www.yaml.org/start.html" target="_blank">YAML</a>
+        file format, which makes it very readable.</p>
+        
+        <p>An example config.yaml file is shown below,</p>
+        
+        <pre><code>preprocess:
+    kit:        NEB
+    gzip:       true
+    stop-oligo: false
+    barcode:    sampleBarcode
+        
+alignment:
+    type: single
+    human_miRNA:     2
+    human_miRNA_sub: 2
+    human_piRNA:     2
+    human_snoRNA:    2</code></pre>
+        
+        <h2>Preprocess Options</h2>
+        
+        <p><strong>kit</strong> - specifies which sRNA library construction kit was used so the adapters
+        can be properly trimmed. Options are "NEB", "Illumina", and "Bioo". Required if adapter-3p
+        and adapter-5p are not provided. The sequences for these kits are as follows,</p>
+        
+        <ul>
+          <li>Illumina - 3' TGGAATTCTCGGGTGCCAAG, 5' GTTCAGAGTTCTACAGTCCGACGATC</li>
+          <li>NEB - 3' AGATCGGAAGAGCACACGTCT, 5' GTTCAGAGTTCTACAGTCCGACGATC</li>
+          <li>Bioo - 3' NNNNTGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC, 5' GTTCAGAGTTCTACAGTCCGACGATC</li>
+        </ul>
+        
+        <p><strong>adapter-3p</strong> - specifies the 3 prime adapter sequence to be trimmed. Required if the <strong>kit</strong> option
+        is not provided.</p>
+        
+        <p><strong>adapter-5p</strong> - specifies the 5 prime adapter sequence to be trimmed. Required if the <strong>kit</strong> option
+        is not provided.</p>
+        
+        <p><strong>gzip</strong> - if this option is set to "true", the pipeline will read gzipped .fast.gz files instead of
+        plain .fastq files. Optional (default is false).</p>
+        
+        <p><strong>stop-oligo</strong> - if this option is set to "true", stop-oligo sequences will be trimmed. Optional
+        (default is false)</p>
+        
+        <p><strong>barcode</strong> - specifies the sample barcode file to use when reading barcodes. Optional. </p>
+        
+        <p><strong>min-length</strong> - the minimum length of reads to keep. Optional. Default is 15.</p>
+        
+        <h2>Alignment Options</h2>
+        
+        <p>Each row in the alignment section should be formatted like,</p>
+        
+        <pre><code>DATABASE_NAME: MAX_MISMATCH</code></pre>
+        
+        <p>For example,</p>
+        
+        <pre><code>human_miRNA: 2</code></pre>
+        
+        <p>The order of the databases in the config file will be the order the databases are aligned to in
+        the pipeline. The database names are the names defined in the database configuration file, as described above.</p>
+        
+        <p><strong>type</strong> - this specifies whether to use single assignment or multiple assignment for read mapping.
+        Can be "single" or "multiple". It is recommended that multiple assignment only be used for small RNA
+        mapping. Optional (default is single assignment). Note that when using the pre-built sRNA indexes, use the
+        <code>human_miRNA_mult</code> database when using multiple assignment, and use the <code>human_miRNA</code> and <code>human_miRNA_sub</code> databases
+        when using single assignment.</p>
+        
+        <p><strong>cores</strong> - the number of cores that bowtie to use for alignment. Default is 15</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Slate theme maintained by <a href="https://github.com/jasoncostello">Jason Costello</a></p>
+      </footer>
+    </div>-->
+
+  </body>
+</html>

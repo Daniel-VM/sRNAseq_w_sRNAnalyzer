@@ -1,0 +1,17 @@
+# Create conda environment for this pipeline:
+# Run: conda env create -f environment.yml
+name: sRNAnalyzer_pipeline
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  ## conda-forge packages
+  - conda-forge::python=3.7.3
+  - conda-forge::perl=5.32.1
+
+  ## bioconda packages
+  - bioconda::bowtie=1.3.0
+  - bioconda::fastx_toolkit=0.0.14
+  - bioconda::cutadapt=3.4
+  

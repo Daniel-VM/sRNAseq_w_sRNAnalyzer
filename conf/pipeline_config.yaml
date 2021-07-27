@@ -1,0 +1,34 @@
+preprocess:
+  kit:        Illumina
+  gzip:       true
+  stop-oligo: false
+        
+alignment:
+  type: single
+  human_miRNA:     2
+  human_miRNA_sub: 2
+  human_piRNA:     2
+  human_snoRNA:    2
+  virus_miRNA:     2
+  plant_miRNA:     2
+  all_miRNA:       2
+  all_miRNA_sub:   2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
