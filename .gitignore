@@ -1,2 +1,5 @@
 # ignore all index references
 DBs/
+data/
+results/
+*.fastq.gz
