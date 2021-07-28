@@ -2,7 +2,7 @@
 
 ## This databases takes long to be downloaded. Therefore we will set a new screen environment to download all of them by using a siple sh script
 
-OUTDIR=/home/da.valle/work/amandafr/osmRNAseq/sranalyzer/DBs/bowtie/indexes
+OUTDIR=$PWD/DBs/bowtie/indexes
 
 #wget -P $OUTDIR http://srnanalyzer.systemsbiology.net/downloads/sRNA_DBs.tar.gz
 #wget -P $OUTDIR http://srnanalyzer.systemsbiology.net/downloads/MainDBs.tar.gz
