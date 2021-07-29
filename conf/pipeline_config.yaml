@@ -1,5 +1,5 @@
 preprocess:
-    stop-oligo: true
+    stop-oligo: false
     min-length: 16
     kit: Illumina
     gzip: true
@@ -10,46 +10,3 @@ alignment:
     human_miRNA_sub: 2
     human_piRNA: 2
     human_snoRNA: 2
-    virus_miRNA: 2
-    human_repSeq: 2
-    human_subSeq: 2
-    nt_human_rtRNA: 2
-    human_lncRNA: 2
-    human_RNA: 2
-    human_ncRNA: 2
-    human_DNA: 2
-    nt_human: 2
-    plant_miRNA: 2
-    all_rRNA_SSU: 2
-    all_rRNA_LSU: 2
-    bacteria_rRNA: 0
-    archaea_rRNA: 0
-    fungi_rRNA: 0
-    bacteria_sRNA: 0
-    microbiome_CDS_blood: 0
-    microbiome_CDS_heart: 0
-    microbiome_CDS_lymph: 0
-    microbiome_CDS_gastrointestinal: 0
-    microbiome_CDS_urogenital: 0
-    microbiome_CDS_oral: 0
-    microbiome_CDS_airways: 0
-    microbiome_CDS_skin: 0
-    microbiome_CDS_unknown: 0
-    microbiome_DNA_blood: 0
-    microbiome_DNA_heart: 0
-    microbiome_DNA_lymph: 0
-    microbiome_DNA_gastrointestinal: 0
-    microbiome_DNA_urogential: 0
-    microbiome_DNA_oral: 0
-    microbiome_DNA_airways: 0
-    microbiome_DNA_skin: 0
-    microbiome_DNA_unknown: 0
-    bacteria_ncRNA: 0
-    bacteria_CDS: 0
-    bacteria_DNA: 0
-    virus_RNA: 0
-    virus_CDS: 0
-    virus_DNA: 0
-    all_miRNA: 0
-    all_miRNA_sub: 0
-    UniVec: 0

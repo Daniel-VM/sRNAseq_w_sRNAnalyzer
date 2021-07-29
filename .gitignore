@@ -2,4 +2,5 @@
 DBs/
 data/
 results/
+results_hsa_smrnas/
 *.fastq.gz
